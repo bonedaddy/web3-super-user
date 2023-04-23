@@ -6,18 +6,20 @@ If you are not familiar with systems administration this guide is not for you.
 
 # What Is Covered
 
-* Docker hardening
-* Kernel hardening
-* Boot process hardening
-* Network hardening
-* Update hardening
+* [Boot process hardening](./SECURING_THE_BOOT_PROCESS.md)
+* [Docker hardening](./DOCKER.md)
+* [Kernel hardening](./KERNEL_HARDENING.md)
+* [Update hardening](./UPDATE_HARDENING.md)
+* [Securing Systemd Services](./SYSTEMD.md)
+* [Securing User Accounts](./USER_ACCOUNTS.md)
 
-And as a small bonus some system configurations are included  that should hopefully provide a performance boost.
+# What Is Not Covered
 
-# Resources
+The following is a list of items not covered by this guide
 
-* https://www.debian.org/doc/manuals/securing-debian-manual/
-* https://madaidans-insecurities.github.io/guides/linux-hardening.html#sysctl-kernel
+* os installation
+* disk encryption 
+* not being a fucking idiot
 
 # Tips
 

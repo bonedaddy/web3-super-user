@@ -59,7 +59,6 @@ fs.protected_hardlinks=1
 net.ipv6.conf.all.use_tempaddr=2
 net.ipv6.conf.default.use_tempaddr=2
 ```
-
 # Swappiness
 
 Generally speaking we want to almost never swap as it can tank server performance. Depending on the amount of RAM you have available though, swapping may be inevitable. This config doesn't disable swap, but makes it exceedingly unlikely to happen:
@@ -67,18 +66,6 @@ Generally speaking we want to almost never swap as it can tank server performanc
 ```conf
 vm.swappiness=1
 ```
-
-# APT seccomp-bpf
-
-Create the file `/etc/apt/apt.conf.d/40sandbox` and ensure it contains
-
-```
-APT::Sandbox::Seccomp "true";
-```
-
-# Use HTTPS For APT
-
-Update all files in `/et/capt/sources.list` to use `https` instead of `http`
 
 # Resources
 
