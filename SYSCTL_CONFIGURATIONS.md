@@ -1,0 +1,85 @@
+# Kernel Tunables
+
+Kernel tunables can be used to employ a wide variety of advanced security measures. 
+
+```conf
+# mitigate kernel pointer leaks
+kernel.kptr_restrict=2
+# prevent dmesg from leaking sensitive information
+kernel.printk=3 3 3 3
+# restrict ebpf access to the `CAP_EBF` or `CAP_SYS_ADMIN` capabilities
+kernel.unprivileged_bpf_disabled=1
+# enable JIT hardening (oe https://github.com/torvalds/linux/blob/9e4b0d55d84a66dbfede56890501dc96e696059c/include/linux/filter.h#L1039-L1070)
+net.core.bpf_jit_harden=2
+# restrict tty line discilpines
+dev.tty.ldisc_autoload=0
+# allows mitigating against some userfaultfd() use-after-free bugs
+vm.unprivileged_userfaultfd=0
+# disallow loading another kernel during runtime
+kernel.kexec_load_disabled=1
+# disable sysrq except for secure-attention-key
+kernel.sysrq=4
+# restrict usage of performance events
+kernel.perf_event_paranoid=3
+# enable time-wait assination mitigation
+net.ipv4.tcp_rfc1337=1
+# enable source validation of packets received
+net.ipv4.conf.all.rp_filter=1
+net.ipv4.conf.default.rp_filter=1
+# avoid smurf attacks, prevent clock fingerprinting
+# TODO: makes it hard to debug network connectivity issues
+# net.ipv4.icmp_echo_ignore_all=1
+# disable icmp redirect, and minimize information disclosure
+net.ipv4.conf.all.accept_redirects=0
+net.ipv4.conf.default.accept_redirects=0
+net.ipv4.conf.all.secure_redirects=0
+net.ipv4.conf.default.secure_redirects=0
+net.ipv6.conf.all.accept_redirects=0
+net.ipv6.conf.default.accept_redirects=0
+net.ipv4.conf.all.send_redirects=0
+net.ipv4.conf.default.send_redirects=0
+# disable source routing
+net.ipv4.conf.all.accept_source_route=0
+net.ipv4.conf.default.accept_source_route=0
+net.ipv6.conf.all.accept_source_route=0
+net.ipv6.conf.default.accept_source_route=0
+# prevent malicious ipv6 router advertisements
+net.ipv6.conf.all.accept_ra=0
+net.ipv6.conf.default.accept_ra=0
+# disable sack
+net.ipv4.tcp_sack=0
+net.ipv4.tcp_dsack=0
+net.ipv4.tcp_fack=0
+# restrict ptrace access to CAP_SYS_PTRACE
+kernel.yama.ptrace_scope=2
+# mitigate a number of TOCTOU races, etc..
+fs.protected_symlinks=1
+fs.protected_hardlinks=1
+# enable ipv6 privacy extensions
+net.ipv6.conf.all.use_tempaddr=2
+net.ipv6.conf.default.use_tempaddr=2
+```
+
+# Swappiness
+
+Generally speaking we want to almost never swap as it can tank server performance. Depending on the amount of RAM you have available though, swapping may be inevitable. This config doesn't disable swap, but makes it exceedingly unlikely to happen:
+
+```conf
+vm.swappiness=1
+```
+
+# APT seccomp-bpf
+
+Create the file `/etc/apt/apt.conf.d/40sandbox` and ensure it contains
+
+```
+APT::Sandbox::Seccomp "true";
+```
+
+# Use HTTPS For APT
+
+Update all files in `/et/capt/sources.list` to use `https` instead of `http`
+
+# Resources
+
+* https://madaidans-insecurities.github.io/guides/linux-hardening.html#kernel
