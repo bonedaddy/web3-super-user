@@ -1,4 +1,4 @@
-# Deploying A Web3 Super User Server
+# Web3 Super Users
 
 This documentation is intended to serve as a resource for web3 super users who self host their infrastructure, however it also serves as a general guide for securing your operating system without having to significantly impact your workflow (ie: using QubeOS).
 
