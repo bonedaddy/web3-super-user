@@ -361,6 +361,13 @@ TemporaryFileSystem=/boot:ro /etc/luks:ro /etc/ssh:ro /etc/ssl/private:ro /media
 BindReadOnlyPaths=/run/systemd/journal/dev-log
 ```
 
+# Debugging
+list reason for syscall failures
+
+```
+sudo journalctl _AUDIT_TYPE_NAME=SECCOMP
+```
+
 # Resources
 
 * https://www.redhat.com/sysadmin/mastering-systemd
