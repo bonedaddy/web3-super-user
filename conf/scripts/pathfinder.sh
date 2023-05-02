@@ -1,6 +1,5 @@
 #! /bin/bash
 
-
 DATA_DIR=".."
 ETH_URL=".."
 PY_SUB_PROC=8

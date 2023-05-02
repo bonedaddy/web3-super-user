@@ -2,10 +2,16 @@
 
 lighthouse \
 	vc \
+	--builder-proposals \
 	--enable-doppelganger-protection \
 	--network mainnet \
-	--debug-level info \
-	--datadir /mnt/nvme_disk/lighthouse \
+	--debug-level debug \
+	--init-slashing-protection \
+	--datadir /mnt/nvme_disk/rocketpool/data/validators/lighthouse \
 	--http \
+	--http-allow-origin "*" \
 	--metrics \
-	--suggested-fee-recipient=...
+	--metrics-address "0.0.0.0" \
+	--metrics-allow-origin "*" \
+	--monitoring-endpoint ... \
+	--suggested-fee-recipient=..
