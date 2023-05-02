@@ -4,7 +4,8 @@
 [Unit]
 Description=Nethermind Node
 Documentation=https://docs.nethermind.io
-After=network.target
+After=network.target dnscrypt-proxy.service
+Before=lighthouse_bn.service lighthouse_vc.service rocketpool_node.service rocketpool_watchtower.service pathfinder.service
 
 [Service]
 CapabilityBoundingSet=
@@ -37,4 +38,3 @@ BindReadOnlyPaths=/run/systemd/journal/dev-log
 
 [Install]
 WantedBy=default.target
-Before=lighthouse_bn.service lighthouse_vc.service rocketpool_node.service rocketpool_watchtower.service pathfinder.service

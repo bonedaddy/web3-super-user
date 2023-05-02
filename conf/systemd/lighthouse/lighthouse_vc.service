@@ -3,7 +3,8 @@
 
 [Unit]
 Description=lighthouse validator
-After=lighthouse_bn.service
+After=network.target lighthouse_bn.service
+Before=rocketpool_node.service rocketpool_watchtower.service
 
 [Service]
 CapabilityBoundingSet=
@@ -35,4 +36,3 @@ BindReadOnlyPaths=/run/systemd/journal/dev-log
 
 [Install]
 WantedBy=default.target
-Before=rocketpool_node.service rocketpool_watchtower.service

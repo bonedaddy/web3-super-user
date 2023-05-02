@@ -3,7 +3,7 @@
 
 [Unit]
 Description=rocketpool node
-After=network.target
+After=network.target lighthouse_bn.service lighthouse_vc.service nethermind.service
 
 [Service]
 CapabilityBoundingSet=
@@ -35,5 +35,3 @@ BindReadOnlyPaths=/run/systemd/journal/dev-log
 
 [Install]
 WantedBy=default.target
-After=lighthouse_bn.service lighthouse_vc.service nethermind.service
-

@@ -4,7 +4,7 @@
 [Unit]
 Description=pathfinder
 Documentation=starknet pathfinder service
-After=nethermind.service
+After=network.target nethermind.service
 
 [Service]
 CapabilityBoundingSet=
