@@ -7,6 +7,8 @@ If you are not familiar with systems administration this guide is not for you.
 # What Is Covered
 
 * [Boot process hardening](./SECURING_THE_BOOT_PROCESS.md)
+* [Disk Optimization](./DISK_OPTIMIZATION.md)
+* [DNS Security](./SECURING_DNS.md)
 * [Docker hardening](./DOCKER.md)
 * [Kernel hardening and optimization](./KERNEL_HARDENING.md)
 * [Update hardening](./UPDATE_HARDENING.md)
