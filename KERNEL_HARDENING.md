@@ -53,6 +53,18 @@ fs.protected_hardlinks=1
 ```conf
 # enable JIT hardening (oe https://github.com/torvalds/linux/blob/9e4b0d55d84a66dbfede56890501dc96e696059c/include/linux/filter.h#L1039-L1070)
 net.core.bpf_jit_harden=2
+# make all attempts to lower network latency
+net.ipv4.tcp_low_latency=1
+# increase the max number of sockets allowed to exist in the "time wait" state
+net.ipv4.tcp_max_tw_buckets = 450000
+# allows for sockets that are about to be destroyed to be reused
+net.ipv4.tcp_tw_reuse=1
+# network buffer tuning
+net.core.rmem_max=26214400
+net.core.rmem_default=26214400
+net.core.wmem_max=26214400
+net.core.wmem_default=26214400
+net.core.optmem_max=26214400
 ```
 
 ### ipv4
@@ -81,6 +93,10 @@ net.ipv4.tcp_sack=0
 net.ipv4.tcp_dsack=0
 net.ipv4.tcp_fack=0
 net.ipv4.tcp_fastopen=3
+net.ipv4.udp_mem = 2527891 3037191 4055782
+net.ipv4.udp_wmem_min = 16384
+net.ipv4.udp_rmem_min = 16384
+
 ```
 
 ### ipv6

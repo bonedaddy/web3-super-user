@@ -35,5 +35,5 @@ BindReadOnlyPaths=/run/systemd/journal/dev-log
 
 [Install]
 WantedBy=default.target
-
+After=lighthouse_bn.service lighthouse_vc.service nethermind.service rocketpool_node.service
 

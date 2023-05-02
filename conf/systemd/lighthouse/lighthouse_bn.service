@@ -35,3 +35,4 @@ BindReadOnlyPaths=/run/systemd/journal/dev-log
 
 [Install]
 WantedBy=default.target
+Before=lighthouse_vc.service rocketpool_node.service rocketpool_watchtower.service
