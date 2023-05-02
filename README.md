@@ -8,7 +8,7 @@ If you are not familiar with systems administration this guide is not for you.
 
 * [Boot process hardening](./SECURING_THE_BOOT_PROCESS.md)
 * [Docker hardening](./DOCKER.md)
-* [Kernel hardening](./KERNEL_HARDENING.md)
+* [Kernel hardening and optimization](./KERNEL_HARDENING.md)
 * [Update hardening](./UPDATE_HARDENING.md)
 * [Securing Systemd Services](./SYSTEMD.md)
 * [Securing User Accounts](./USER_ACCOUNTS.md)

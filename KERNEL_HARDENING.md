@@ -1,6 +1,16 @@
+# Kernel Hardening And Optimization
+
+There are a few options for hardening your kernel, the most effective of which are using kernel modules like grsecurity. However the setup can be complex, limit system performance, etc.. As such we will focus on using kernel tunables to perform system hardening.
+
+All configurations referenced in this documentation can be stored in `/etc/sysctl.conf` and then applied without a reboot using `sudo sysctl -p`.
+
 # Kernel Tunables
 
-Kernel tunables can be used to employ a wide variety of advanced security measures. 
+Kernel tunables allow you to control the behaviour of the linux kernel, and can be used to enable a number of tweaks, allowing for enhanced system performance, security, etc..
+
+## Kernel Configurations
+
+These are configuration which directly influence kernel behavior
 
 ```conf
 # mitigate kernel pointer leaks
@@ -9,18 +19,45 @@ kernel.kptr_restrict=2
 kernel.printk=3 3 3 3
 # restrict ebpf access to the `CAP_EBF` or `CAP_SYS_ADMIN` capabilities
 kernel.unprivileged_bpf_disabled=1
-# enable JIT hardening (oe https://github.com/torvalds/linux/blob/9e4b0d55d84a66dbfede56890501dc96e696059c/include/linux/filter.h#L1039-L1070)
-net.core.bpf_jit_harden=2
-# restrict tty line discilpines
-dev.tty.ldisc_autoload=0
-# allows mitigating against some userfaultfd() use-after-free bugs
-vm.unprivileged_userfaultfd=0
 # disallow loading another kernel during runtime
 kernel.kexec_load_disabled=1
 # disable sysrq except for secure-attention-key
 kernel.sysrq=4
 # restrict usage of performance events
 kernel.perf_event_paranoid=3
+# restrict ptrace access to CAP_SYS_PTRACE
+kernel.yama.ptrace_scope=2
+```
+
+## VM Configuration
+
+```conf
+# allows mitigating against some userfaultfd() use-after-free bugs
+vm.unprivileged_userfaultfd=0
+# only under extreme scenarios use swap
+vm.swappiness=1
+```
+
+## Filesystem Configuration
+
+```conf
+# mitigate a number of TOCTOU races, etc..
+fs.protected_symlinks=1
+fs.protected_hardlinks=1
+```
+
+## Network Configuration
+
+### misc
+
+```conf
+# enable JIT hardening (oe https://github.com/torvalds/linux/blob/9e4b0d55d84a66dbfede56890501dc96e696059c/include/linux/filter.h#L1039-L1070)
+net.core.bpf_jit_harden=2
+```
+
+### ipv4
+
+```conf
 # enable time-wait assination mitigation
 net.ipv4.tcp_rfc1337=1
 # enable source validation of packets received
@@ -34,37 +71,38 @@ net.ipv4.conf.all.accept_redirects=0
 net.ipv4.conf.default.accept_redirects=0
 net.ipv4.conf.all.secure_redirects=0
 net.ipv4.conf.default.secure_redirects=0
-net.ipv6.conf.all.accept_redirects=0
-net.ipv6.conf.default.accept_redirects=0
 net.ipv4.conf.all.send_redirects=0
 net.ipv4.conf.default.send_redirects=0
 # disable source routing
 net.ipv4.conf.all.accept_source_route=0
 net.ipv4.conf.default.accept_source_route=0
+# disable sack
+net.ipv4.tcp_sack=0
+net.ipv4.tcp_dsack=0
+net.ipv4.tcp_fack=0
+net.ipv4.tcp_fastopen=3
+```
+
+### ipv6
+
+```conf
+net.ipv6.conf.all.accept_redirects=0
+net.ipv6.conf.default.accept_redirects=0
 net.ipv6.conf.all.accept_source_route=0
 net.ipv6.conf.default.accept_source_route=0
 # prevent malicious ipv6 router advertisements
 net.ipv6.conf.all.accept_ra=0
 net.ipv6.conf.default.accept_ra=0
-# disable sack
-net.ipv4.tcp_sack=0
-net.ipv4.tcp_dsack=0
-net.ipv4.tcp_fack=0
-# restrict ptrace access to CAP_SYS_PTRACE
-kernel.yama.ptrace_scope=2
-# mitigate a number of TOCTOU races, etc..
-fs.protected_symlinks=1
-fs.protected_hardlinks=1
 # enable ipv6 privacy extensions
 net.ipv6.conf.all.use_tempaddr=2
 net.ipv6.conf.default.use_tempaddr=2
 ```
-# Swappiness
 
-Generally speaking we want to almost never swap as it can tank server performance. Depending on the amount of RAM you have available though, swapping may be inevitable. This config doesn't disable swap, but makes it exceedingly unlikely to happen:
+## Misc
 
 ```conf
-vm.swappiness=1
+# restrict tty line discilpines
+dev.tty.ldisc_autoload=0
 ```
 
 # Resources
