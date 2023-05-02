@@ -1,0 +1,38 @@
+# SPDX-FileCopyrightText: 2022 Demerzel Solutions Limited
+# SPDX-License-Identifier: LGPL-3.0-only
+
+[Unit]
+Description=pathfinder
+Documentation=starknet pathfinder service
+After=nethermind.service
+
+[Service]
+CapabilityBoundingSet=
+LockPersonality=yes
+User=pathfinder
+Group=pathfinder
+ExecStart=/home/pathfinder/node.sh
+Restart=on-failure
+LimitNOFILE=1000000
+KeyringMode=private
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectKernelTunables=yes
+SystemCallArchitectures=native
+SystemCallFilter=
+SystemCallFilter=@system-service
+SystemCallFilter=~@aio @chown @clock @cpu-emulation @debug @keyring @memlock @module @mount @obsolete @privileged @raw-io @reboot @setuid @swap userfaultfd mincore 
+
+# Only available in Debian bullseye or later
+ProtectHostname=yes
+RestrictSUIDSGID=yes
+
+# Restrict access to potential sensitive data (kernels, config, mount points,
+# private keys). The paths will be created if they don't exist and they must
+# not be files.
+TemporaryFileSystem=/boot:ro /etc/luks:ro /etc/ssh:ro
+# Permit syslog(3) messages to journald
+BindReadOnlyPaths=/run/systemd/journal/dev-log
+
+[Install]
+WantedBy=default.target
