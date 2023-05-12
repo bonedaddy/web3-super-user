@@ -1,0 +1,78 @@
+{
+    "Init": {
+        "ChainSpecPath": "chainspec/foundation.json",
+        "GenesisHash": "0xd4e56740f876aef8c010b86a40d5f56745a118d0906a34e69aec8c0db1cb8fa3",
+        "BaseDbPath": "nethermind_db/mainnet",
+        "LogFileName": "mainnet.logs.txt",
+	"WebSocketsEnabled": true,
+        "MemoryHint": 2048000000
+    },
+    "Sync": {
+        "FastSync": true,
+        "SnapSync": true,
+        "PivotNumber": 17178000,
+        "PivotHash": "0xfff67ab8df09e704d3704e0a9090aa53e459cf3b94a5cbfc798c5db9aaa36c3e",
+        "PivotTotalDifficulty": "58750003716598352816469",
+        "FastBlocks": true,
+	"WitnessProtocolEnabled": true,
+	"SnapSyncAccountRangePartitionCount": 256
+    },
+    "EthStats": {
+        "Server": "wss://ethstats.net/api"
+    },
+    "HealthChecks": {
+        "Enabled": true,
+        "UIEnabled": true
+    },
+    "Network": {
+        "EnableUPnP": true,
+        "MaxActivePeers": 256
+    },
+    "Metrics": {
+        "NodeName": "Mainnet",
+        "Enabled": true,
+        "ExposePort": 9091
+    },
+    "Mev": {
+        "Enabled": true,
+        "MaxMergedBundles": 3
+    },
+    "JsonRpc": {
+        "Enabled": true,
+        "Timeout": 20000,
+        "Host": "127.0.0.1",
+        "Port": 8545,
+        "MaxBatchSize": 2048,
+        "EnabledModules": [
+            "Eth",
+            "Subscribe",
+            "Trace",
+            "TxPool",
+            "Web3",
+            "Personal",
+            "Proof",
+            "Net",
+            "Parity",
+            "Health"
+        ],
+        "AdditionalRpcUrls": [
+            "http://localhost:8551|http;ws|net;eth;subscribe;engine;web3;client"
+        ],
+        "JwtSecretFile": "/home/nethermind/jwtsecret"
+    },
+    "Merge": {
+        "Enabled": true
+    },
+    "Pruning": {
+        "CacheMB": 2048,
+        "FullPruningMemoryBudgetMb": 8000,
+	"FullPruningMaxDegreeOfParallelism": 32
+    },
+    "Bloom": {
+        "IndexLevelBucketSizes": [
+            16,
+            16,
+            16
+        ]
+    }
+}
