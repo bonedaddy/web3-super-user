@@ -2,15 +2,16 @@
 # SPDX-License-Identifier: LGPL-3.0-only
 
 [Unit]
-Description=rocketpool node
-After=network.target lighthouse_bn.service lighthouse_vc.service nethermind.service
+Description=Prometheus Node Exporter
+Documentation=host os stats for prometheus
+After=network.target
 
 [Service]
 CapabilityBoundingSet=
 LockPersonality=yes
-User=rp
-Group=rp
-ExecStart=rocketpoold --settings /home/rp/user-settings.yml node
+User=node_exporter
+Group=node_exporter
+ExecStart=/bin/node_exporter
 Restart=on-failure
 LimitNOFILE=1000000
 KeyringMode=private
@@ -32,6 +33,9 @@ RestrictSUIDSGID=yes
 TemporaryFileSystem=/boot:ro /etc/luks:ro /etc/ssh:ro
 # Permit syslog(3) messages to journald
 BindReadOnlyPaths=/run/systemd/journal/dev-log
+
+KillSignal=SIGINT
+TimeoutStopSec=900
 
 [Install]
 WantedBy=default.target

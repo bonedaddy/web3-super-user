@@ -2,15 +2,16 @@
 # SPDX-License-Identifier: LGPL-3.0-only
 
 [Unit]
-Description=rocketpool watch tower
-After=network.target lighthouse_bn.service lighthouse_vc.service nethermind.service rocketpool_node.service
+Description=pathfinder
+Documentation=starknet pathfinder service
+After=network.target nethermind.service
 
 [Service]
 CapabilityBoundingSet=
 LockPersonality=yes
-User=rp
-Group=rp
-ExecStart=rocketpoold --settings /home/rp/user-settings.yml watchtower
+User=pathfinder
+Group=pathfinder
+ExecStart=/home/pathfinder/node.sh
 Restart=on-failure
 LimitNOFILE=1000000
 KeyringMode=private
@@ -33,6 +34,8 @@ TemporaryFileSystem=/boot:ro /etc/luks:ro /etc/ssh:ro
 # Permit syslog(3) messages to journald
 BindReadOnlyPaths=/run/systemd/journal/dev-log
 
+KillSignal=SIGINT
+TimeoutStopSec=900
+
 [Install]
 WantedBy=default.target
-

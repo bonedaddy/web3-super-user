@@ -2,16 +2,16 @@
 # SPDX-License-Identifier: LGPL-3.0-only
 
 [Unit]
-Description=lighthouse beacon node
-After=network.target nethermind.service
-Before=lighthouse_vc.service rocketpool_node.service rocketpool_watchtower.service
+Description=lighthouse validator
+After=network.target lighthouse_bn.service
+Before=rocketpool_node.service rocketpool_watchtower.service
 
 [Service]
 CapabilityBoundingSet=
 LockPersonality=yes
 User=lighthouse
 Group=lighthouse
-ExecStart=/home/lighthouse/beacon_node.sh
+ExecStart=/home/lighthouse/validator.sh
 Restart=on-failure
 LimitNOFILE=1000000
 KeyringMode=private
@@ -33,6 +33,9 @@ RestrictSUIDSGID=yes
 TemporaryFileSystem=/boot:ro /etc/luks:ro /etc/ssh:ro
 # Permit syslog(3) messages to journald
 BindReadOnlyPaths=/run/systemd/journal/dev-log
+
+KillSignal=SIGINT
+TimeoutStopSec=900
 
 [Install]
 WantedBy=default.target

@@ -2,16 +2,17 @@
 # SPDX-License-Identifier: LGPL-3.0-only
 
 [Unit]
-Description=pathfinder
-Documentation=starknet pathfinder service
-After=network.target nethermind.service
+Description=Nethermind Node
+Documentation=
+After=network.target dnscrypt-proxy.service
 
 [Service]
 CapabilityBoundingSet=
 LockPersonality=yes
-User=pathfinder
-Group=pathfinder
-ExecStart=/home/pathfinder/node.sh
+User=nethermind
+Group=nethermind
+WorkingDirectory=/home/nethermind
+ExecStart=/home/nethermind/node.sh
 Restart=on-failure
 LimitNOFILE=1000000
 KeyringMode=private
@@ -33,6 +34,9 @@ RestrictSUIDSGID=yes
 TemporaryFileSystem=/boot:ro /etc/luks:ro /etc/ssh:ro
 # Permit syslog(3) messages to journald
 BindReadOnlyPaths=/run/systemd/journal/dev-log
+
+KillSignal=SIGINT
+TimeoutStopSec=900
 
 [Install]
 WantedBy=default.target

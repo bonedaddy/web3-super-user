@@ -2,18 +2,16 @@
 # SPDX-License-Identifier: LGPL-3.0-only
 
 [Unit]
-Description=Nethermind Node
-Documentation=https://docs.nethermind.io
-After=network.target dnscrypt-proxy.service
-Before=lighthouse_bn.service lighthouse_vc.service rocketpool_node.service rocketpool_watchtower.service pathfinder.service
+Description=lighthouse beacon node
+After=network.target nethermind.service
+Before=lighthouse_vc.service rocketpool_node.service rocketpool_watchtower.service
 
 [Service]
 CapabilityBoundingSet=
 LockPersonality=yes
-User=nethermind
-Group=nethermind
-WorkingDirectory=/home/nethermind
-ExecStart=/home/nethermind/node.sh
+User=lighthouse
+Group=lighthouse
+ExecStart=/home/lighthouse/beacon_node.sh
 Restart=on-failure
 LimitNOFILE=1000000
 KeyringMode=private
@@ -35,6 +33,9 @@ RestrictSUIDSGID=yes
 TemporaryFileSystem=/boot:ro /etc/luks:ro /etc/ssh:ro
 # Permit syslog(3) messages to journald
 BindReadOnlyPaths=/run/systemd/journal/dev-log
+
+KillSignal=SIGINT
+TimeoutStopSec=900
 
 [Install]
 WantedBy=default.target
