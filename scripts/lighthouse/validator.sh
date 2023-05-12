@@ -2,6 +2,7 @@
 
 lighthouse \
 	vc \
+	--graffiti .. \
 	--builder-proposals \
 	--enable-doppelganger-protection \
 	--network mainnet \
@@ -13,5 +14,7 @@ lighthouse \
 	--metrics \
 	--metrics-address "0.0.0.0" \
 	--metrics-allow-origin "*" \
-	--monitoring-endpoint ... \
+	--monitoring-endpoint https://beaconcha.in/api/v1/client/metrics?apikey=.. \
+	--monitoring-endpoint-period 100 \
+	--beacon-nodes http://localhost:5052 \
 	--suggested-fee-recipient=..

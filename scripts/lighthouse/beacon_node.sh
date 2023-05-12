@@ -1,29 +1,29 @@
 #! /bin/bash
 
-# proposer finalication epoch is based on grafana `epoch boundaries since finalization`
 # profit threshold of 0.1 ETH
 
 lighthouse \
-	beacon_node \
-	--target-peers 120 \
+	bn \
+	--graffiti .. \
 	--builder http://localhost:18550 \
-	--builder-profit-threshold 100000000000000000 \
+	--builder-profit-threshold 10000000000000000 \
 	--gui \
 	--http-allow-origin "*" \
 	--staking \
 	--network mainnet \
 	--debug-level info \
-	--block-cache-size 20 \
+	--block-cache-size 120 \
+	--shuffling-cache-size 3000 \
 	--prune-payloads false \
 	--datadir /mnt/nvme_disk/lighthouse \
 	--eth1 \
 	--http \
-	--http-allow-sync-stalled \
 	--metrics \
 	--metrics-allow-origin "*" \
 	--metrics-port 5054 \
 	--metrics-address 0.0.0.0 \
-	--monitoring-endpoint ... \
+	--monitoring-endpoint https://beaconcha.in/api/v1/client/metrics?apikey=.. \
+	--monitoring-endpoint-period 120 \
 	--execution-endpoints http://127.0.0.1:8551 \
 	--checkpoint-sync-url "https://mainnet.checkpoint.sigp.io" \
 	--enr-udp-port=9000 \
@@ -31,4 +31,4 @@ lighthouse \
 	--discovery-port=9000 \
 	--suggested-fee-recipient=.. \
 	--proposer-reorg-epochs-since-finalization 3 \
-	--jwt-secrets=".."
+	--jwt-secrets="/home/lighthouse/jwtsecret"
