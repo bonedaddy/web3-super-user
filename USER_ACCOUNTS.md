@@ -1,21 +1,22 @@
 # User Accounts
 
-It's important that you secure your server by isolating user accounts as much as possible. For our purposes we recommend three main accounts:
 
-* `docker-adm`
-* `auth-adm`
-* `maintenance-adm`
+Each service ran is done so under a privilege minimzed user account to help isolate processes from each otehr as much as possible. At a minimum there are two users, a docker administrator user, and your actual admin user account. The admin user is the only user which is permitted to be used over ssh, and is secured with public key authentication, as well as 2FA support.
 
 # Docker Admin
 
-The `docker-adm` account is part of the `docker` group allowing for deployment, maintenance, and usage of the docker daemon.
+A user account name `docker-admin` is created, whose sole purpose is to administer docker containers. Therefore it is the only user account that is a member of the `docker` group. This user will need shell access in order to be usable.
 
-The user account should have no special permissions, other than being part of the docker group.
+```shell
+$> sudo useradd -m docker-admin --shell /bin/bash
+$> sudo usermod -aG docker docker-admin
+```
 
+# Administrator 
 
-# Auth Admin
+The administrator account is a general purpose account that is used as an entrypoint into the server, while having access to the `sudo` command. Additionally 2FA is configured so that not only must a 2FA code be presented during SSH, attempting to invoke the `sudo` command also requires a 2FA code. This account is not a member of any other group, and is strictly used for pivoting to the appropriate user account.
 
-The `auth-adm` account is used for accessing the server either locally or remotely. It should be secured with an ssh public key, as well as requiring both 2FA on SSH access.
+Once you have created this user, make sure to enable public key ssh authentication, and copy over your ssh key before enabling 2FA authenticaiton.
 
 ## Enabling 2FA
 
@@ -50,8 +51,3 @@ echo "[INFO] please run the google-authenticator command"
 ```
 
 Afterwards running this script, execute `google-authenticator` and follow the prompts. Once this is done edit `/etc/pam.d/sshd` and comment out the line `@include common-auth`, which will disable password prompts for sshd, enabling only ssh-key  authentication, and OTP verification. The above configuration will require the first time sudo is invoked the user provides a 2FA code.
-
-# Maintenance Admin
-
-The `maintenance-adm` account is used for performing all systems administration tasks, and has `sudo` group membership. In addition to this access to the `sudo` command should be gated behind 2FA.
-
