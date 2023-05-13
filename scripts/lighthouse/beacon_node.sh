@@ -1,9 +1,14 @@
 #! /bin/bash
 
-# profit threshold of 0.1 ETH
+# note: this configuration is extremely resource intensive
+# 		increasing the block cache from 5 => 120, and increasing
+# 		the shuffling cache size by around 3x
+#
+#
 
 lighthouse \
 	bn \
+	--target-peers 120 \
 	--graffiti .. \
 	--builder http://localhost:18550 \
 	--builder-profit-threshold 10000000000000000 \
@@ -31,4 +36,6 @@ lighthouse \
 	--discovery-port=9000 \
 	--suggested-fee-recipient=.. \
 	--proposer-reorg-epochs-since-finalization 3 \
+	--subscribe-all-subnets \
+	--validator-monitor-auto \
 	--jwt-secrets="/home/lighthouse/jwtsecret"

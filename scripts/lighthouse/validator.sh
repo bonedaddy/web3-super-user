@@ -1,5 +1,7 @@
 #! /bin/bash
 
+# NOTE: this script is configured to use redundant beacon chain nodes
+
 lighthouse \
 	vc \
 	--graffiti .. \
@@ -16,5 +18,5 @@ lighthouse \
 	--metrics-allow-origin "*" \
 	--monitoring-endpoint https://beaconcha.in/api/v1/client/metrics?apikey=.. \
 	--monitoring-endpoint-period 100 \
-	--beacon-nodes http://localhost:5052 \
+	--beacon-nodes http://localhost:5052,http://localhost:6052 \
 	--suggested-fee-recipient=..
