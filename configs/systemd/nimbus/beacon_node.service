@@ -1,0 +1,58 @@
+# To configure the service, use `systemctl edit nimbus_beacon_node.service`
+# and override the environment variables in this file:
+# [Service]
+# Environment="WEB3_URL=wss://provider/"
+#
+# To completely override the start command (to add custom parameters such as
+# graffiti), override the `ExecStart` value instead by first emptying it, then
+# specifying a new one:
+#
+# [Service]
+# ExecStart=
+# ExecStart=/usr/bin/nimbus_beacon_node --network=${NETWORK} \
+#  --data-dir="${DATA_DIR_PREFIX}/shared_${NETWORK}_${NODE_ID}" \
+#  --graffiti=123
+#
+# See https://nimbus.guide/ for more information
+
+[Unit]
+Description=Nimbus Beacon Node (Ethereum consensus client)
+Wants=network-online.target
+After=network-online.target
+
+[Install]
+WantedBy=multi-user.target
+
+[Service]
+CapabilityBoundingSet=
+LockPersonality=yes
+User=nimbus
+Group=nimbus
+WorkingDirectory=/mnt/ssd_disk/nimbus_beacon_node
+ExecStart=/usr/bin/nimbus_beacon_node --config-file=/home/nimbus/nimbus-eth2.toml
+Restart=on-failure
+LimitNOFILE=1000000
+KeyringMode=private
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectKernelTunables=yes
+SystemCallArchitectures=native
+SystemCallFilter=
+SystemCallFilter=@system-service
+SystemCallFilter=~@aio @chown @clock @cpu-emulation @debug @keyring @memlock @module @mount @obsolete @privileged @raw-io @reboot @setuid @swap userfaultfd mincore 
+
+# Only available in Debian bullseye or later
+ProtectHostname=yes
+RestrictSUIDSGID=yes
+
+# Restrict access to potential sensitive data (kernels, config, mount points,
+# private keys). The paths will be created if they don't exist and they must
+# not be files.
+TemporaryFileSystem=/boot:ro /etc/luks:ro /etc/ssh:ro
+# Permit syslog(3) messages to journald
+BindReadOnlyPaths=/run/systemd/journal/dev-log
+TimeoutStopSec=900
+
+# Don't restart when Doppelganger detection has been activated
+RestartPreventExitStatus=129
+TimeoutSec=1200

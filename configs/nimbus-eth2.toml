@@ -1,0 +1,24 @@
+# this nimbus configuration is intended to be used as a secondary/fallback
+# CL client, using our primary client for trusted node synchronization
+doppelganger-detection = true
+web3-url = ["http://127.0.0.1:9551"]
+num-threads = 0
+tcp-port = 9092
+udp-port = 9092
+rest = true
+rest-port = 5056
+metrics = true
+metrics-port = 8008
+metrics-address = "0.0.0.0"
+data-dir = "/mnt/ssd_disk/nimbus_beacon_node"
+jwt-secret = "/home/nimbus/jwtsecret"
+suggested-fee-recipient = ".."
+payload-builder = true
+payload-builder-url = "http://localhost:18550"
+discv5 = true
+rest-statecache-size = 15
+graffiti = ".."
+subscribe-all-subnets = true
+enr-auto-update = true
+[trustedNodeSync]
+trusted-node-url = "http://127.0.0.1:5052"
